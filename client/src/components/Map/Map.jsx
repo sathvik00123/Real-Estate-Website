@@ -2,10 +2,10 @@ import React from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import GeoCoderMarker from "../GeoCoderMarker/GeoCoderMarker";
 
-const Map = (address,city,country) => {
+const Map = ({address,city,country}) => {
   return (
     <MapContainer 
-    center={[51.35, 18.8]} 
+    center={[53.35, 18.8]} 
     zoom={1} 
     scrollWheelZoom={false}
     style={{

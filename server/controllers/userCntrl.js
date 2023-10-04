@@ -56,6 +56,7 @@ export const getAllBookings = asyncHandler(async (req, res) => {
       where: { email },
       select: { bookedVisits: true },
     });
+    res.header("Access-Control-Allow-Origin", "*");
     res.status(200).send(getAllBookings);
   } catch (err) {
     throw new Error(err.message);
@@ -136,7 +137,7 @@ export const allFav = asyncHandler(async (req, res) => {
             where: {email},
             select : {favResidenciesID : true}
         })
-        res.status(404).send(favResidencies)
+        res.status(200).send(favResidencies)
 
     } catch (err) {
         throw new Error(err.message)

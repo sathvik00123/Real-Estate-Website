@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getProperty } from "../../utils/api";
-import { useQuery } from "react-query";
+import { getProperty, removeBooking } from "../../utils/api";
+import { useMutation, useQuery } from "react-query";
 import { PuffLoader } from "react-spinners";
 import { AiFillHeart, AiTwotoneCar } from "react-icons/ai";
 import { FaShower } from "react-icons/fa";
@@ -9,14 +9,41 @@ import { MdMeetingRoom } from "react-icons/md";
 import { MdLocationOn } from "react-icons/md";
 import "./Property.css";
 import Map from "../../components/Map/Map";
+import useAuthCheck from "../../hooks/useAuthCheck";
+import { useAuth0 } from "@auth0/auth0-react";
+import BookingModal from "../../components/BookingModel/BookingModel";
+import UserDetailsContext from "../../Context/UserDetailsContext";
+import { Button } from "@mantine/core";
+import { toast } from "react-toastify";
+import Heart from "../../components/Heart/Heart";   
 
 const Property = () => {
   const { pathname } = useLocation();
   const id = pathname.split("/").slice(-1)[0];
+  const { user } = useAuth0();
+
+  const {
+    userDetails: { bookings },
+    setUserDetails,
+  } = useContext(UserDetailsContext);
 
   const { data, isLoading, isError } = useQuery(["resd", id], () =>
     getProperty(id)
   );
+
+  const [modalOpened, setModalOpened] = useState(false);
+  const { validateLogin } = useAuthCheck();
+
+  const { mutate: cancelBooking, isLoading: cancelling } = useMutation({
+    mutationFn: () => removeBooking(id, user?.email),
+    onSuccess: () => {
+      setUserDetails((prev) => ({
+        ...prev,
+        bookings: prev.bookings.filter((booking) => booking?.id !== id),
+      }));
+      toast.success("Booking cancelling", { position: "bottom-right" });
+    },
+  });
 
   if (isLoading) {
     return (
@@ -43,7 +70,7 @@ const Property = () => {
       <div className="flexColStart paddings innerWidth property-container">
         {/* like button */}
         <div className="like">
-          <AiFillHeart size={24} color="white" />
+          <Heart id={id}/>
         </div>
 
         {/* images */}
@@ -96,15 +123,48 @@ const Property = () => {
             </div>
 
             {/* booking button */}
-            <button className="button">book your visit</button>
+
+            {bookings?.map((booking) => booking.id).includes(id) ? (
+              <>
+                <Button
+                  variant="outline"
+                  color="red"
+                  w={"100%"}
+                  onClick={() => cancelBooking()}
+                  disabled={cancelling}
+                >
+                  <span>Cancel booking</span>
+                </Button>
+                <span>
+                  Your visit already booked for date{" "}
+                  {bookings?.find((booking) => booking?.id === id).date}
+                </span>
+              </>
+            ) : (
+              <button
+                className="button"
+                onClick={() => {
+                  validateLogin() && setModalOpened(true);
+                }}
+              >
+                book your visit
+              </button>
+            )}
           </div>
+
+          <BookingModal
+            opened={modalOpened}
+            setOpened={setModalOpened}
+            propertyId={id}
+            email={user?.email}
+          />
 
           {/* right side */}
           <div className="map">
-            <Map 
-                address={data?.address}
-                city={data?.city}
-                country={data?.country}
+            <Map
+              address={data?.address}
+              city={data?.city}
+              country={data?.country}
             />
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import Website from "./Pages/Website";
 import "./app.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -9,29 +9,34 @@ import { ToastContainer } from "react-toastify";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "react-toastify/dist/ReactToastify.css";
 import Property from "./Pages/Property/Property";
-
+import UserDetailsContext from "./Context/UserDetailsContext";
 function App() {
   const queryClient = new QueryClient();
-
+  const [userDetails, setUserDetails] = useState({
+    favourites: [], 
+    bookings: [],
+    token: null,
+  });
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Website />}></Route>
-              <Route path="/properties">
-                <Route index element={<Properties />} />
-                <Route path=":propertyId" element={<Property />} />
+    <UserDetailsContext.Provider value={{ userDetails, setUserDetails }}>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Website />}></Route>
+                <Route path="/properties">
+                  <Route index element={<Properties />} />  {/* here [index == /properties] */}
+                  <Route path=":propertyId" element={<Property />} />
+                </Route>
               </Route>
-            </Route>
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-      <ToastContainer />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+        <ToastContainer />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </UserDetailsContext.Provider>
   );
 }
-
 export default App;

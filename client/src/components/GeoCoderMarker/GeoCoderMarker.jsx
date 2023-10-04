@@ -13,9 +13,9 @@ let DefaultIcon = L.icon({
 })
 
 L.Marker.prototype.options.icon = DefaultIcon
+
 const GeoCoderMarker = ({address}) => {
     const map = useMap(); 
-    
     const [position, setPosition] = useState([60,19])
 
     useEffect(() =>{
