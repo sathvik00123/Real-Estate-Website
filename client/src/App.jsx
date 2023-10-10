@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "react-toastify/dist/ReactToastify.css";
 import Property from "./Pages/Property/Property";
-import UserDetailsContext from "./Context/UserDetailsContext";
+import UserDetailsContext from "./context/UserDetailsContext";
 import Bookings from "./Pages/Bookings/Bookings";
 import Favourites from "./Pages/Favourites/Favourites";
 function App() {

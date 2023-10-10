@@ -12,7 +12,7 @@ import Map from "../../components/Map/Map";
 import useAuthCheck from "../../hooks/useAuthCheck";
 import { useAuth0 } from "@auth0/auth0-react";
 import BookingModal from "../../components/BookingModel/BookingModel";
-import UserDetailsContext from "../../Context/UserDetailsContext";
+import UserDetailsContext from "../../context/UserDetailsContext";
 import { Button } from "@mantine/core";
 import { toast } from "react-toastify";
 import Heart from "../../components/Heart/Heart";   

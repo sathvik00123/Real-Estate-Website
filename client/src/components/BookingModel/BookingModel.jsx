@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Modal, Button } from "@mantine/core";
-import UserDetailsContext from "../../Context/UserDetailsContext";
+import UserDetailsContext from "../../context/UserDetailsContext";
 import { DatePicker } from "@mantine/dates";
 import { useMutation } from "react-query";
 import { bookVisit } from "../../utils/api.js";

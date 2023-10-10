@@ -4,7 +4,7 @@ import "../Properties/Properties.css";
 import useProperties from "../../hooks/useProperties";
 import { PuffLoader } from "react-spinners";
 import PropertyCard from "../../components/PropertyCard/PropertyCard";
-import UserDetailsContext from "../../Context/UserDetailsContext";
+import UserDetailsContext from "../../context/UserDetailsContext";
 
 const Bookings = () => {
   const [filter, setFilter] = useState("");
