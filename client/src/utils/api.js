@@ -98,9 +98,17 @@ export const getAllBookings = async (email) => {
     const res = await api.post(`/user/allBookings`, {
       email,
     });
-    return res.data["bookedVisits"]
+    return res.data["bookedVisits"];
   } catch (error) {
     toast.error("Something went wrong, while fetching favs");
     throw error;
   }
-}
+};
+
+export const createResidency = async (data) => {
+  try {
+    const res = await api.post(`/residency/create`, { data });
+  } catch (error) {
+    throw error;
+  }
+};

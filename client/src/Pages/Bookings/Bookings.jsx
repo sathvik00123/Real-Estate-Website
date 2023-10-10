@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import "./Properties.css";
+import "../Properties/Properties.css";
 import useProperties from "../../hooks/useProperties";
 import { PuffLoader } from "react-spinners";
 import PropertyCard from "../../components/PropertyCard/PropertyCard";
+import UserDetailsContext from "../../Context/UserDetailsContext";
 
-const Properties = () => {
-  const [ filter, setFilter ] = useState("");
+const Bookings = () => {
+  const [filter, setFilter] = useState("");
   const { data, isError, isLoading, refetch } = useProperties();
+  const {
+    userDetails: { bookings },
+  } = useContext(UserDetailsContext);
+
   if (isError) {
     return (
       <div className="wrapper">
@@ -36,11 +41,14 @@ const Properties = () => {
         <SearchBar filter={filter} setFilter={setFilter} />
         <div className="properties flexCenter paddings">
           {data
+            .filter((property) =>
+              bookings.map((booking) => booking.id).includes(property.id)
+            )
             .filter(
               (property) =>
-                (property.title.toLowerCase().includes(filter?.toLowerCase()) ||
+                property.title.toLowerCase().includes(filter?.toLowerCase()) ||
                 property.city.toLowerCase().includes(filter?.toLowerCase()) ||
-                property.country.toLowerCase().includes(filter?.toLowerCase()))
+                property.country.toLowerCase().includes(filter?.toLowerCase())
             )
             .map((card, i) => (
               <PropertyCard card={card} key={i} />
@@ -51,4 +59,4 @@ const Properties = () => {
   );
 };
 
-export default Properties;
+export default Bookings;

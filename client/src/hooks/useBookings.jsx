@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext } from "react";
 import UserDetailsContext from "../Context/UserDetailsContext";
 import { getAllBookings, getAllFav } from "../utils/api";
 import { useQuery } from "react-query";

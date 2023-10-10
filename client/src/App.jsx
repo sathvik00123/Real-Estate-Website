@@ -10,10 +10,12 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import "react-toastify/dist/ReactToastify.css";
 import Property from "./Pages/Property/Property";
 import UserDetailsContext from "./Context/UserDetailsContext";
+import Bookings from "./Pages/Bookings/Bookings";
+import Favourites from "./Pages/Favourites/Favourites";
 function App() {
   const queryClient = new QueryClient();
   const [userDetails, setUserDetails] = useState({
-    favourites: [], 
+    favourites: [],
     bookings: [],
     token: null,
   });
@@ -29,6 +31,8 @@ function App() {
                   <Route index element={<Properties />} />  {/* here [index == /properties] */}
                   <Route path=":propertyId" element={<Property />} />
                 </Route>
+                <Route path="/bookings" element={<Bookings />}/>
+                <Route path="/favourites" element={<Favourites />}/>
               </Route>
             </Routes>
           </Suspense>

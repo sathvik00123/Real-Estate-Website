@@ -71,9 +71,9 @@
 }
 
 @media (max-width: 640px) {
-    .hero-container{
+    /* .hero-container{
         margin-top: 2rem;
-    }
+    } */
 
     .image-container{
         height: 25rem
