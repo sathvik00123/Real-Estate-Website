@@ -1,5 +1,5 @@
 import React from 'react';
-import './hero.css';
+import './Hero.css';
 import CountUp from 'react-countup'; 
 import {motion} from 'framer-motion';
 import SearchBar from '../SearchBar/SearchBar';
